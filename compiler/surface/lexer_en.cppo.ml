@@ -112,7 +112,7 @@
 
 #define MR_LAW_INCLUDE "Include"
 #define MX_AT_PAGE \
-   '@', Star hspace, "p.", Star hspace, Plus digit -> \
-      let s = Utf8.lexeme lexbuf in \
-      let i = String.index s '.' in \
-      AT_PAGE (int_of_string (String.trim (String.sub s i (String.length s - i))))
+'@', Star hspace, "p.", Star hspace, Plus digit -> \
+let s = Utf8.lexeme lexbuf in \
+let i = String.index s '.' in \
+AT_PAGE (int_of_string (String.trim (String.sub s i (String.length s - i))))

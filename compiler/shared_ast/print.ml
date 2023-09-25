@@ -915,10 +915,10 @@ module UserFacing = struct
      https://en.wikipedia.org/wiki/Wikipedia:Manual_of_Style/Dates_and_numbers#Grouping_of_digits
      https://fr.wikipedia.org/wiki/Wikip%C3%A9dia:Conventions_concernant_les_nombres#Pour_un_comptage_ou_une_mesure *)
   let bigsep (lang : Cli.backend_lang) =
-    match lang with En -> ",", 3 | Fr -> " ", 3 | Pl -> ",", 3
+    match lang with En -> ",", 3 | Fr -> " ", 3 | Pl -> ",", 3 | No -> ",", 3
 
   let decsep (lang : Cli.backend_lang) =
-    match lang with En -> "." | Fr -> "," | Pl -> "."
+    match lang with En -> "." | Fr -> "," | Pl -> "." | No -> ","
 
   let unit (_lang : Cli.backend_lang) ppf () = Format.pp_print_string ppf "()"
 
@@ -931,6 +931,8 @@ module UserFacing = struct
       | Fr, false -> "faux"
       | Pl, true -> "prawda"
       | Pl, false -> "falsz"
+      | No, false -> "falskt"
+      | No, true -> "sant"
     in
     Format.pp_print_string ppf s
 
@@ -948,7 +950,9 @@ module UserFacing = struct
     aux (Z.abs n)
 
   let money (lang : Cli.backend_lang) ppf n =
-    (match lang with En -> Format.pp_print_string ppf "$" | Fr | Pl -> ());
+    (match lang with
+    | En -> Format.pp_print_string ppf "$"
+    | Fr | No | Pl -> ());
     let units, cents = Z.div_rem n (Z.of_int 100) in
     integer lang ppf units;
     Format.pp_print_string ppf (decsep lang);
@@ -957,6 +961,7 @@ module UserFacing = struct
     | En -> ()
     | Fr -> Format.pp_print_string ppf " €"
     | Pl -> Format.pp_print_string ppf " PLN"
+    | No -> Format.pp_print_string ppf " NOK"
 
   let decimal (lang : Cli.backend_lang) ppf r =
     let den = Q.den r in
@@ -998,7 +1003,7 @@ module UserFacing = struct
   let date (lang : Cli.backend_lang) ppf d =
     let y, m, d = Dates_calc.Dates.date_to_ymd d in
     match lang with
-    | En | Pl -> Format.fprintf ppf "%04d-%02d-%02d" y m d
+    | En | No | Pl -> Format.fprintf ppf "%04d-%02d-%02d" y m d
     | Fr -> Format.fprintf ppf "%02d/%02d/%04d" d m y
 
   let duration (lang : Cli.backend_lang) ppf dr =
@@ -1013,7 +1018,8 @@ module UserFacing = struct
     (match lang with
     | En -> [splur y "year"; splur m "month"; splur d "day"]
     | Fr -> [splur y "an"; m, "mois"; splur d "jour"]
-    | Pl -> [y, "rok"; m, "miesiac"; d, "dzien"])
+    | Pl -> [y, "rok"; m, "miesiac"; d, "dzien"]
+    | No -> [y, "år"; m, "måned"; d, "dag"])
     |> filter0
     |> Format.pp_print_list
          ~pp_sep:(fun ppf () -> Format.pp_print_string ppf ", ")

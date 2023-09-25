@@ -198,12 +198,12 @@ module Parser_En = ParserAux (Lexer_en)
 module Parser_Fr = ParserAux (Lexer_fr)
 module Parser_Pl = ParserAux (Lexer_pl)
 
+(** {1 Parsing multiple files} *)
 let localised_parser : Cli.backend_lang -> lexbuf -> Ast.source_file = function
   | En -> Parser_En.commands_or_includes
   | Fr -> Parser_Fr.commands_or_includes
   | Pl -> Parser_Pl.commands_or_includes
-
-(** {1 Parsing multiple files} *)
+  | No -> Parser_Pl.commands_or_includes
 
 (** Parses a single source file *)
 let rec parse_source_file

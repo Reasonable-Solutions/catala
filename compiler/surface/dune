@@ -20,6 +20,11 @@
 
 (rule
  (with-stdout-to
+  lexer_no.ml
+  (run %{bin:cppo} %{dep:lexer_no.cppo.ml} %{dep:lexer.cppo.ml})))
+
+(rule
+ (with-stdout-to
   lexer_fr.ml
   (run %{bin:cppo} %{dep:lexer_fr.cppo.ml} %{dep:lexer.cppo.ml})))
 

@@ -20,7 +20,13 @@ open Shared_ast
 
 (** Associates a file extension with its corresponding {!type: Cli.backend_lang}
     string representation. *)
-let extensions = [".catala_fr", "fr"; ".catala_en", "en"; ".catala_pl", "pl"]
+let extensions =
+  [
+    ".catala_fr", "fr";
+    ".catala_en", "en";
+    ".catala_pl", "pl";
+    ".catala_no", "no";
+  ]
 
 let modname_of_file f =
   (* Fixme: make this more robust *)
@@ -68,9 +74,9 @@ module Passes = struct
     let prg = load_module_interfaces prg options link_modules in
     Message.emit_debug "Name resolution...";
     let ctx = Desugared.Name_resolution.form_context prg in
-    (* let scope_uid = get_scope_uid options backend ctx in
-     * (\* This uid is a Desugared identifier *\)
-     * let variable_uid = get_variable_uid options backend ctx scope_uid in *)
+    (* let scope_uid = get_scope_uid options backend ctx in * (\* This uid is a
+       Desugared identifier *\) * let variable_uid = get_variable_uid options
+       backend ctx scope_uid in *)
     Message.emit_debug "Desugaring...";
     let prg = Desugared.From_surface.translate_program ctx prg in
     Message.emit_debug "Disambiguating...";

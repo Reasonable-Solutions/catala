@@ -17,13 +17,13 @@
 
 (* Types used by flags & options *)
 
-type backend_lang = En | Fr | Pl
+type backend_lang = En | Fr | Pl | No
 type when_enum = Auto | Always | Never
 type message_format_enum = Human | GNU
 type input_file = FileName of string | Contents of string
 
 (** Associates a {!type: Cli.backend_lang} with its string represtation. *)
-let languages = ["en", En; "fr", Fr; "pl", Pl]
+let languages = ["en", En; "fr", Fr; "pl", Pl; "no", No]
 
 let language_code =
   let rl = List.map (fun (a, b) -> b, a) languages in
