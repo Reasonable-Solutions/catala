@@ -417,7 +417,7 @@ let rec evaluate_operator
 (* /S\ dark magic here. This relies both on internals of [Lcalc.to_ocaml] *and*
    of the OCaml runtime *)
 let rec runtime_to_val :
-  type d e.
+    type d e.
     (decl_ctx -> ((d, e, _) astk, 'm) gexpr -> ((d, e, _) astk, 'm) gexpr) ->
     decl_ctx ->
     'm mark ->
@@ -473,7 +473,7 @@ let rec runtime_to_val :
   | TAny -> assert false
 
 and val_to_runtime :
-  type d e .
+    type d e.
     (decl_ctx -> ((d, e, _) astk, 'm) gexpr -> ((d, e, _) astk, 'm) gexpr) ->
     decl_ctx ->
     typ ->
@@ -534,8 +534,7 @@ and val_to_runtime :
     curry [] targs
   | _ ->
     Message.raise_internal_error
-      "Could not convert value of type %a to runtime: %a"
-      (Print.typ ctx) ty
+      "Could not convert value of type %a to runtime: %a" (Print.typ ctx) ty
       Expr.format v
 
 let rec evaluate_expr :
