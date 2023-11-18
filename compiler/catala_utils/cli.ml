@@ -19,7 +19,6 @@
 
 type file = string
 type raw_file = file
-
 type backend_lang = En | Fr | Pl | No
 type when_enum = Auto | Always | Never
 type message_format_enum = Human | GNU
